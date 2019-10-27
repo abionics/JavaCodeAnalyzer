@@ -12,9 +12,10 @@ class ProgramInfo {
     int lines;
     int blank;
 
-    private boolean backslash;
-    private boolean quotes;
-    private boolean comments;
+    private boolean backslash;  // \
+    private boolean quotes;     // "
+    private boolean quotation;  // '
+    private boolean comments;   // // or /*
 
     private StringBuilder word;
     private AdvanceList<String> words;
@@ -38,6 +39,7 @@ class ProgramInfo {
     private void cleanup() {
         backslash = false;
         quotes = false;
+        quotation = false;
         comments = false;
 
         word = new StringBuilder();
@@ -63,6 +65,7 @@ class ProgramInfo {
     private void analyze(String line) throws Exception {
         if (backslash) throw new Exception("Analyzer::analyze: invalid backslash, line = " + lines);
         if (quotes) throw new Exception("Analyzer::analyze: all quotes must be closed, line = " + lines);
+        if (quotation) throw new Exception("Analyzer::analyze: all quotation must be closed, line = " + lines);
         word.setLength(0);
         split(line);
     }
@@ -78,8 +81,15 @@ class ProgramInfo {
             } else if (backslash) {
                 backslash = false;
             } else if (letter == '\"') {
-                quotes = !quotes;
-                if (quotes) word();
+                if (!quotation) {
+                    quotes = !quotes;
+                    if (quotes) word();
+                }
+            } else if (letter == '\'') {
+                if (!quotes) {
+                    quotation = !quotation;
+                    if (quotation) word();
+                }
             } else if (!quotes) {
                 if (last == '/' && letter == '/') break;
                 if (last == '/' && letter == '*') comments = true;
@@ -143,7 +153,7 @@ class ProgramInfo {
                         } else if (isClass) {
                             // method
                             var clazz = (ClassInfo) tree.last();
-                            int pos = words.find("(");
+                            int pos = words.lastIndexOf("(");
                             if (pos != -1) { // not lambda
                                 var name = words.get(pos - 1);
                                 boolean isThrows = words.contains("throws");
