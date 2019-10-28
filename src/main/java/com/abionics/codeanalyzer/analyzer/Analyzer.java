@@ -20,8 +20,9 @@ public class Analyzer {
     private final ProgramInfo program;
 
     public Analyzer(@NotNull File directory) throws Exception {
-        output = results + directory.getName() + "/";
-        program = new ProgramInfo();
+        String name = directory.getName();
+        output = results + name + "/";
+        program = new ProgramInfo(name);
         analyze(directory);
         output();
     }
@@ -164,6 +165,7 @@ public class Analyzer {
             constructors += clazz.constructors;
             ancestors += clazz.ancestors;
         }
+        writer.write(program.name + "\t");
         writer.write(program.lines + "\t");
         writer.write(classes + "\t");
         writer.write(round(variables, classes, 2) + "\t");

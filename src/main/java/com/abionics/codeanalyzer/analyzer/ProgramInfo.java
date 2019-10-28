@@ -8,6 +8,8 @@ import java.util.EnumSet;
 import java.util.List;
 
 class ProgramInfo {
+    final String name;
+
     int files;
     int lines;
     int blank;
@@ -24,7 +26,8 @@ class ProgramInfo {
     ArrayList<ClassInfo> classes;
 
 
-    ProgramInfo() {
+    ProgramInfo(String name) {
+        this.name = name;
         reset();
     }
 
@@ -98,7 +101,8 @@ class ProgramInfo {
                 }
             }
             word.append(letter);
-            last = letter;
+            if (last == '*' && letter == '/') last = '\n';
+            else last = letter;
         }
     }
 
@@ -124,6 +128,7 @@ class ProgramInfo {
 
         int q = -1;
         for (var words : logicals) {
+//            System.out.println(level + " " + words);
 //            System.out.println(words.toString());
             q++;
             String end = words.last();

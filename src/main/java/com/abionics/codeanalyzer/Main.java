@@ -24,7 +24,7 @@ public class Main {
             mkdirs(preload.substring(0, preload.indexOf('/')));
             var preloadPath = Paths.get(preload);
             if (Files.notExists(preloadPath)) Files.createFile(preloadPath);
-            area.setFont(new Font(area.getFont().getName(), Font.PLAIN, 10));
+            area.setFont(new Font(area.getFont().getName(), Font.PLAIN, 9));
         } catch (IOException e) {
             e.printStackTrace();
             System.exit(-1);
@@ -45,7 +45,7 @@ public class Main {
     private static void gui() {
         JFrame frame = new JFrame("Code Analyzer");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(700, 550);
+        frame.setSize(1200, 900);
 
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
