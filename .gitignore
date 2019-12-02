@@ -1,5 +1,6 @@
 # Project exclude paths
-.idea
+.idea/workspace.xml
 /target/
 /data/results/
 /data/sources/
+DS_Store

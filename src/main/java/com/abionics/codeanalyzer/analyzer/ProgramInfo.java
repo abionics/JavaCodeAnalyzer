@@ -3,6 +3,7 @@ package com.abionics.codeanalyzer.analyzer;
 import com.abionics.codeanalyzer.help.AdvanceList;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -50,7 +51,7 @@ class ProgramInfo {
         logicals = new ArrayList<>();
     }
 
-    void analyze(@NotNull List<String> code) throws Exception {
+    void analyze(@NotNull List<String> code) throws IOException {
         cleanup();
         files++;
         for (String line : code) {
@@ -65,10 +66,10 @@ class ProgramInfo {
         analyze();
     }
 
-    private void analyze(String line) throws Exception {
-        if (backslash) throw new Exception("Analyzer::analyze: invalid backslash, line = " + lines);
-        if (quotes) throw new Exception("Analyzer::analyze: all quotes must be closed, line = " + lines);
-        if (quotation) throw new Exception("Analyzer::analyze: all quotation must be closed, line = " + lines);
+    private void analyze(String line) throws AnalyzeException {
+        if (backslash) throw new AnalyzeException("Analyzer::analyze", "invalid backslash, line = " + lines);
+        if (quotes) throw new AnalyzeException("Analyzer::analyze", "all quotes must be closed, line = " + lines);
+        if (quotation) throw new AnalyzeException("Analyzer::analyze", "all quotation must be closed, line = " + lines);
         word.setLength(0);
         split(line);
     }
@@ -122,7 +123,7 @@ class ProgramInfo {
         return Character.isLetter(letter) || Character.isDigit(letter) || letter == '_';
     }
 
-    private void analyze() throws Exception {
+    private void analyze() throws AnalyzeException {
         int level = 0;
         AdvanceList tree = new AdvanceList();
 
@@ -188,11 +189,10 @@ class ProgramInfo {
                     if (level == tree.size()) tree.pop();
                     level--;
                     break;
-                default: throw new Exception("Analyze::analyze: invalid end of logical (words), logical = " + q);
+                default: throw new AnalyzeException("Analyze::analyze", "invalid end of logical (words), logical = " + q);
             }
         }
-
-        if (level != 0) throw new Exception("Analyze::analyze: '{' or '}' exception, level = " + level);
+        if (level != 0) throw new AnalyzeException("Analyze::analyze", "'{' or '}' exception, level = " + level);
     }
 
     @NotNull

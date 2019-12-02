@@ -1,6 +1,6 @@
 package com.abionics.codeanalyzer.analyzer;
 
-import com.abionics.codeanalyzer.Main;
+import com.abionics.codeanalyzer.Controller;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.BufferedWriter;
@@ -13,21 +13,21 @@ import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static com.abionics.codeanalyzer.Main.results;
+import static com.abionics.codeanalyzer.Controller.results;
+import static com.abionics.codeanalyzer.Controller.kulakovska;
 
 public class Analyzer {
     private final String output;
     private final ProgramInfo program;
 
-    public Analyzer(@NotNull File directory) throws Exception {
+    public Analyzer(@NotNull File directory) throws IOException {
         String name = directory.getName();
         output = results + name + "/";
         program = new ProgramInfo(name);
         analyze(directory);
-        output();
     }
 
-    private void analyze(@NotNull File directory) throws Exception {
+    private void analyze(@NotNull File directory) throws IOException {
         var files = directory.listFiles();
         if (files == null) return;
         for (var file : files) {
@@ -47,12 +47,12 @@ public class Analyzer {
         }
     }
 
-    private void output() throws IOException {
-        Main.mkdirs(output);
+    public void output() throws IOException {
+        Controller.mkdirs(output);
         mainInfo();
         classesInfo();
         statisticInfo();
-        kulakovskayaInfo();
+        kulakovskaInfo();
     }
 
     private void mainInfo() throws IOException {
@@ -143,8 +143,8 @@ public class Analyzer {
         writer.close();
     }
 
-    private void kulakovskayaInfo() throws IOException {
-        var writer = new BufferedWriter(new FileWriter(results + "kulakovskaya.txt", true));
+    private void kulakovskaInfo() throws IOException {
+        var writer = new BufferedWriter(new FileWriter(kulakovska, true));
         int classes = program.classes.size();
         int variables = 0;
         int methods = 0;

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.nio.file.Files;
 
-import static com.abionics.codeanalyzer.Main.sources;
+import static com.abionics.codeanalyzer.Controller.sources;
 
 class Loader {
     static void load(@NotNull String[] links) throws Exception {
@@ -38,13 +38,13 @@ class Loader {
         String title = author + "_" + repo;
         String zip = sources + title + "/archive.zip";
         String resource = sources + title;
-        Main.mkdirs(resource);
+        Controller.mkdirs(resource);
 
         System.out.println("\tLoading");
         FileUtils.copyURLToFile(new URL(link), new File(zip));
         System.out.println("\tUnzipping");
         unzip(zip, resource);
-        Main.delete(zip);
+        Controller.delete(zip);
     }
 
     private static void loadLocal(@NotNull String link) throws IOException {
