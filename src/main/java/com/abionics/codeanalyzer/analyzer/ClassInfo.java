@@ -13,6 +13,7 @@ class ClassInfo {
     int constructors;
     private boolean hasDefaultConstructor;
 
+
     ClassInfo(String name, Type type, EnumSet<Modifiers> modifiers, int ancestors) {
         this.name = name;
         this.type = type;

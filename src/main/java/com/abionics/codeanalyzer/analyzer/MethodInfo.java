@@ -10,6 +10,7 @@ class MethodInfo {
     final int params;
     final boolean isThrows;
 
+
     @Contract(pure = true)
     MethodInfo(String name, EnumSet<Modifiers> modifiers, int params, boolean isThrows) {
         this.name = name;

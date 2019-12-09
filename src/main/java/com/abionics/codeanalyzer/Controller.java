@@ -20,8 +20,8 @@ public class Controller {
     public static final String results = "data/results/";
     public static final String kulakovska = results + "kulakovska.txt";
 
-    @FXML
-    private void initialize() throws IOException {
+
+    @FXML private void initialize() throws IOException {
         mkdirs(preload.substring(0, preload.indexOf('/')));
         var preloadPath = Paths.get(preload);
         if (Files.notExists(preloadPath)) Files.createFile(preloadPath);

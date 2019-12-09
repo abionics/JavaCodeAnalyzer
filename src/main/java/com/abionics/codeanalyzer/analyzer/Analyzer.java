@@ -20,6 +20,7 @@ public class Analyzer {
     private final String output;
     private final ProgramInfo program;
 
+
     public Analyzer(@NotNull File directory) throws IOException {
         String name = directory.getName();
         output = results + name + "/";

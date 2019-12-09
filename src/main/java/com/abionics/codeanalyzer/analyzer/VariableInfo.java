@@ -7,6 +7,7 @@ import java.util.EnumSet;
 class VariableInfo {
     final EnumSet<Modifiers> modifiers;
 
+
     @Contract(pure = true)
     VariableInfo(EnumSet<Modifiers> modifiers) {
         this.modifiers = modifiers;

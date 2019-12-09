@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
 public class Main extends Application {
     @Override
     public void start(@NotNull Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/main.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/analyzer.fxml"));
         primaryStage.setTitle("Java Code Analyzer");
         primaryStage.setScene(new Scene(root, 500, 600));
         primaryStage.show();
